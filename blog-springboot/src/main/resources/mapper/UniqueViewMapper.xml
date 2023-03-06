@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yehonghan.mapper.UniqueViewMapper">
+
+    <resultMap id="BaseResultMap" type="top.yehonghan.entity.UniqueView">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="viewsCount" column="views_count" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,views_count,create_time,
+        update_time
+    </sql>
+    <select id="listUniqueViews" resultType="top.yehonghan.dto.UniqueViewDTO">
+        SELECT DATE_FORMAT(create_time, "%Y-%m-%d") as `day`,
+               views_count
+        FROM `tb_unique_view`
+        WHERE create_time &gt; #{startTime}
+          AND create_time &lt;= #{endTime}
+        ORDER BY create_time
+    </select>
+</mapper>
